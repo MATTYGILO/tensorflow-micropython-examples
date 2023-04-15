@@ -1,6 +1,12 @@
+#include "py/builtin.h"
+#include "py/runtime.h"
+#include "py/mpconfig.h"
+#include "py/objstr.h"
+#include "py/obj.h"
+#include "py/stream.h"
+
 #include "esp_wifi.h"
 
-//then add...
 //Set up EAP
 STATIC mp_obj_t esp_seteap(mp_obj_t username,mp_obj_t password){
 
@@ -38,5 +44,5 @@ const mp_obj_module_t mp_module_enterprise = {
         .globals = (mp_obj_dict_t *)&mp_module_enterprise_globals,
 };
 
-MP_REGISTER_MODULE(MP_QSTR_enterprise, mp_module_enterprise, 1);
+MP_REGISTER_MODULE(MP_QSTR_enterprise, mp_module_enterprise);
 
