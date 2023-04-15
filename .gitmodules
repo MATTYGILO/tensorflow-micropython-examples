@@ -1,6 +1,6 @@
 [submodule "micropython"]
 	path = micropython
-	url = https://github.com/micropython/micropython.git
+	url = https://github.com/MATTYGILO/micropython.git
 	branch = master
 [submodule "tensorflow"]
 	path = tensorflow

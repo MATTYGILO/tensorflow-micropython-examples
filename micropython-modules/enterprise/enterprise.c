@@ -8,6 +8,7 @@
 #include "esp_wifi.h"
 #include "esp_wpa2.h"
 
+
 //Set up EAP
 STATIC mp_obj_t esp_seteap(mp_obj_t username,mp_obj_t password){
 
