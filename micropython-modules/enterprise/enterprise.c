@@ -44,5 +44,5 @@ const mp_obj_module_t mp_module_enterprise = {
         .globals = (mp_obj_dict_t *)&mp_module_enterprise_globals,
 };
 
-MP_REGISTER_MODULE(MP_QSTR_enterprise, mp_module_enterprise);
+MP_REGISTER_MODULE(MP_QSTR_enterprise, mp_module_enterprise, 1);
 
