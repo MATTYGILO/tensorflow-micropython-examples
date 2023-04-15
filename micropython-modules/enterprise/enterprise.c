@@ -14,12 +14,6 @@
 #include "esp_event.h"
 
 
-static inline void esp_exceptions(esp_err_t e) {
-    if (e != ESP_OK) {
-        esp_exceptions_helper(e);
-    }
-}
-
 NORETURN void esp_exceptions_helper(esp_err_t e) {
     switch (e) {
         case ESP_ERR_WIFI_NOT_INIT:
@@ -62,6 +56,12 @@ NORETURN void esp_exceptions_helper(esp_err_t e) {
             mp_raise_OSError(MP_ENOMEM);
         default:
             mp_raise_msg_varg(&mp_type_RuntimeError, MP_ERROR_TEXT("Wifi Unknown Error 0x%04x"), e);
+    }
+}
+
+static inline void esp_exceptions(esp_err_t e) {
+    if (e != ESP_OK) {
+        esp_exceptions_helper(e);
     }
 }
 
