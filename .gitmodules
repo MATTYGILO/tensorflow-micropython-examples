@@ -12,3 +12,4 @@
 [submodule "micropython"]
     path = micropython
 	url = https://github.com/MATTYGILO/micropython.git
+	branch = old
