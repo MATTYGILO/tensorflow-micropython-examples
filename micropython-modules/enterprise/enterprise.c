@@ -10,8 +10,54 @@
 
 #include "esp_wifi.h"
 #include "esp_wpa2.h"
-#include "esp_exceptions.h"
+#include "esp_log.h"
+#include "enterprise.h"
 
+
+NORETURN void esp_exceptions_helper(esp_err_t e) {
+    switch (e) {
+        case ESP_ERR_WIFI_NOT_INIT:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Wifi Not Initialized"));
+        case ESP_ERR_WIFI_NOT_STARTED:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Wifi Not Started"));
+        case ESP_ERR_WIFI_NOT_STOPPED:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Wifi Not Stopped"));
+        case ESP_ERR_WIFI_IF:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Wifi Invalid Interface"));
+        case ESP_ERR_WIFI_MODE:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Wifi Invalid Mode"));
+        case ESP_ERR_WIFI_STATE:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Wifi Internal State Error"));
+        case ESP_ERR_WIFI_CONN:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Wifi Internal Error"));
+        case ESP_ERR_WIFI_NVS:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Wifi Internal NVS Error"));
+        case ESP_ERR_WIFI_MAC:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Wifi Invalid MAC Address"));
+        case ESP_ERR_WIFI_SSID:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Wifi SSID Invalid"));
+        case ESP_ERR_WIFI_PASSWORD:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Wifi Invalid Password"));
+        case ESP_ERR_WIFI_TIMEOUT:
+            mp_raise_OSError(MP_ETIMEDOUT);
+        case ESP_ERR_WIFI_WAKE_FAIL:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Wifi Wakeup Failure"));
+        case ESP_ERR_WIFI_WOULD_BLOCK:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Wifi Would Block"));
+        case ESP_ERR_WIFI_NOT_CONNECT:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("Wifi Not Connected"));
+        case ESP_ERR_TCPIP_ADAPTER_INVALID_PARAMS:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("TCP/IP Invalid Parameters"));
+        case ESP_ERR_TCPIP_ADAPTER_IF_NOT_READY:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("TCP/IP IF Not Ready"));
+        case ESP_ERR_TCPIP_ADAPTER_DHCPC_START_FAILED:
+            mp_raise_msg(&mp_type_OSError, MP_ERROR_TEXT("TCP/IP DHCP Client Start Failed"));
+        case ESP_ERR_TCPIP_ADAPTER_NO_MEM:
+            mp_raise_OSError(MP_ENOMEM);
+        default:
+            mp_raise_msg_varg(&mp_type_RuntimeError, MP_ERROR_TEXT("Wifi Unknown Error 0x%04x"), e);
+    }
+}
 
 // Set up EAP
 STATIC mp_obj_t esp_seteap(mp_obj_t username,mp_obj_t password){
