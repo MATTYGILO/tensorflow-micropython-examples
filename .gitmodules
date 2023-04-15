@@ -1,7 +1,3 @@
-[submodule "micropython"]
-	path = micropython
-	url = https://github.com/MATTYGILO/micropython.git
-	branch = master
 [submodule "tensorflow"]
 	path = tensorflow
 	url = https://github.com/mocleiri/tflite-micro.git
