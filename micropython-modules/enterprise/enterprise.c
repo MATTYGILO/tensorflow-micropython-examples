@@ -1,15 +1,19 @@
+#include <string.h>
+
 #include "py/builtin.h"
 #include "py/runtime.h"
 #include "py/mpconfig.h"
 #include "py/objstr.h"
 #include "py/obj.h"
 #include "py/stream.h"
+#include "py/mperrno.h"
 
 #include "esp_wifi.h"
 #include "esp_wpa2.h"
+#include "esp_log.h"
 
 
-//Set up EAP
+// Set up EAP
 STATIC mp_obj_t esp_seteap(mp_obj_t username,mp_obj_t password){
 
     // The length of username and password
@@ -21,13 +25,13 @@ STATIC mp_obj_t esp_seteap(mp_obj_t username,mp_obj_t password){
     const char *EAP_PASSWORD = mp_obj_str_get_data(password,&Plen);
 
     // Sets the identity and password
-    ESP_EXCEPTIONS(esp_wifi_sta_wpa2_ent_set_identity((uint8_t *)EAP_IDENTITY, strlen(EAP_IDENTITY)));
-    ESP_EXCEPTIONS(esp_wifi_sta_wpa2_ent_set_username((uint8_t *)EAP_IDENTITY, strlen(EAP_IDENTITY)));
-    //ESP_EXCEPTIONS(esp_wifi_sta_wpa2_ent_set_new_password((uint8_t *)EAP_PASSWORD, strlen(EAP_PASSWORD)));
-    ESP_EXCEPTIONS(esp_wifi_sta_wpa2_ent_set_password((uint8_t *)EAP_PASSWORD, strlen(EAP_PASSWORD)));
+    esp_exceptions(esp_wifi_sta_wpa2_ent_set_identity((uint8_t *)EAP_IDENTITY, strlen(EAP_IDENTITY)));
+    esp_exceptions(esp_wifi_sta_wpa2_ent_set_username((uint8_t *)EAP_IDENTITY, strlen(EAP_IDENTITY)));
+    // esp_exceptions(esp_wifi_sta_wpa2_ent_set_new_password((uint8_t *)EAP_PASSWORD, strlen(EAP_PASSWORD)));
+    esp_exceptions(esp_wifi_sta_wpa2_ent_set_password((uint8_t *)EAP_PASSWORD, strlen(EAP_PASSWORD)));
 
     // Enables wpa enterprise
-    ESP_EXCEPTIONS(esp_wifi_sta_wpa2_ent_enable());
+    esp_exceptions(esp_wifi_sta_wpa2_ent_enable());
 
     return mp_const_none;
 }
