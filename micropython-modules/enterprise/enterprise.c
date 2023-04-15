@@ -25,10 +25,10 @@ STATIC mp_obj_t esp_seteap(mp_obj_t username,mp_obj_t password){
     const char *EAP_PASSWORD = mp_obj_str_get_data(password,&Plen);
 
     // Sets the identity and password
-    ESP_EXCEPTIONS(esp_wifi_sta_wpa2_ent_set_identity((uint8_t *)EAP_IDENTITY, strlen(EAP_IDENTITY)));
-    ESP_EXCEPTIONS(esp_wifi_sta_wpa2_ent_set_username((uint8_t *)EAP_IDENTITY, strlen(EAP_IDENTITY)));
-    // ESP_EXCEPTIONS(esp_wifi_sta_wpa2_ent_set_new_password((uint8_t *)EAP_PASSWORD, strlen(EAP_PASSWORD)));
-    ESP_EXCEPTIONS(esp_wifi_sta_wpa2_ent_set_password((uint8_t *)EAP_PASSWORD, strlen(EAP_PASSWORD)));
+    esp_exceptions(esp_wifi_sta_wpa2_ent_set_identity((uint8_t *)EAP_IDENTITY, strlen(EAP_IDENTITY)));
+    esp_exceptions(esp_wifi_sta_wpa2_ent_set_username((uint8_t *)EAP_IDENTITY, strlen(EAP_IDENTITY)));
+    // esp_exceptions(esp_wifi_sta_wpa2_ent_set_new_password((uint8_t *)EAP_PASSWORD, strlen(EAP_PASSWORD)));
+    esp_exceptions(esp_wifi_sta_wpa2_ent_set_password((uint8_t *)EAP_PASSWORD, strlen(EAP_PASSWORD)));
 
     // Enables wpa enterprise
     esp_wifi_sta_wpa2_ent_enable();
