@@ -12,6 +12,8 @@ message (STATUS "PROJECT_DIR=${PROJECT_DIR}")
 message (STATUS "MICROPY_PORT_DIR=${MICROPY_PORT_DIR}")
 message (STATUS "MICROPY_BOARD_DIR=${MICROPY_BOARD_DIR}")
 
+list(APPEND IDF_COMPONENTS wpa_supplicant)
+
 # Define the output sdkconfig so it goes in the build directory.
 set(SDKCONFIG ${CMAKE_BINARY_DIR}/sdkconfig)
 
