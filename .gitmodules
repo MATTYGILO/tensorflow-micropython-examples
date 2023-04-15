@@ -10,5 +10,5 @@
 	path = mpy-mbedtls
 	url = https://github.com/Carglglz/mpy-mbedtls.git
 [submodule "micropython"]
-	path = micropython
+    path = micropython
 	url = https://github.com/MATTYGILO/micropython.git
