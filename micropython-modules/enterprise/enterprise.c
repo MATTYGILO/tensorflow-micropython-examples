@@ -11,7 +11,6 @@
 #include "esp_wifi.h"
 #include "esp_wpa2.h"
 #include "esp_log.h"
-#include "enterprise.h"
 #include "esp_event.h"
 
 
