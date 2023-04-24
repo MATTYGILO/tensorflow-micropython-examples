@@ -106,14 +106,14 @@ extern "C" {
                                              microlite_interpreter->tensor_area->len, 
                                              error_reporter);
 
-        mp_printf("After MicroInterpreter\n")
+        mp_printf(MP_PYTHON_PRINTER, "After MicroInterpreter\n");
 
         if (interpreter->AllocateTensors() != kTfLiteOk) {
             error_reporter->Report("AllocateTensors() failed!");
             return 1;
         }
 
-        mp_printf("After MicroInterpreter\n")
+        mp_printf(MP_PYTHON_PRINTER, "Before recasting\n");
 
         microlite_interpreter->tf_interpreter = (mp_obj_t)interpreter;
 
