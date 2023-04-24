@@ -96,6 +96,7 @@ jobs:
             boards/esp32/MICROLITE_S3/build/bootloader/bootloader.bin
             boards/esp32/MICROLITE_S3/build/partition_table/partition-table.bin
             boards/esp32/MICROLITE_S3/build/micropython.bin
+            boards/esp32/MICROLITE_S3/build/micropython.elf
 #
 #      - name: Build ESP32 S3 psram support and 8MB Flash firmware
 #        run: |
@@ -156,3 +157,4 @@ jobs:
             boards/esp32/MICROLITE_S3_SPIRAM_OCTAL/build/bootloader/bootloader.bin
             boards/esp32/MICROLITE_S3_SPIRAM_OCTAL/build/partition_table/partition-table.bin
             boards/esp32/MICROLITE_S3_SPIRAM_OCTAL/build/micropython.bin
+            boards/esp32/MICROLITE_S3_SPIRAM_OCTAL/build/micropython.elf
