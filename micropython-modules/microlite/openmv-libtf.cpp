@@ -64,6 +64,11 @@ extern "C" {
 
         tflite::ErrorReporter *error_reporter = &micro_error_reporter;
 
+        mp_printf(MP_PYTHON_PRINTER, "Before GetModel\n");
+
+        // Output microlite_interpreter->model_data->items
+        mp_printf(MP_PYTHON_PRINTER, "Model data: %s\n", microlite_interpreter->model_data->items);
+
         const tflite::Model *model = tflite::GetModel(microlite_interpreter->model_data->items);
 
 //        if (model->version() != TFLITE_SCHEMA_VERSION) {
@@ -75,27 +80,40 @@ extern "C" {
         //      error_reporter->Report("Align failed!");
         //      return 1;
         //  }
+        mp_printf(MP_PYTHON_PRINTER, "Before tf_error_reporter\n");
 
 
         microlite_interpreter->tf_error_reporter = (mp_obj_t)error_reporter;
+
+        mp_printf(MP_PYTHON_PRINTER, "Before tf_model\n");
+
         microlite_interpreter->tf_model = (mp_obj_t)model;
+
 
 
         // tflite::MicroAllocator *allocator = tflite::MicroAllocator::Create(
         //     (uint8_t*)microlite_interpreter->tensor_area->items, 
         //     microlite_interpreter->tensor_area->len, error_reporter);
+        mp_printf(MP_PYTHON_PRINTER, "Before resolver\n");
 
         tflite::AllOpsResolver resolver;
+
+        mp_printf(MP_PYTHON_PRINTER, "Before MicroInterpreter\n");
+
         tflite::MicroInterpreter *interpreter = new tflite::MicroInterpreter(model, 
                                              resolver, 
                                              (uint8_t*)microlite_interpreter->tensor_area->items, 
                                              microlite_interpreter->tensor_area->len, 
                                              error_reporter);
 
+        mp_printf("After MicroInterpreter\n")
+
         if (interpreter->AllocateTensors() != kTfLiteOk) {
             error_reporter->Report("AllocateTensors() failed!");
             return 1;
         }
+
+        mp_printf("After MicroInterpreter\n")
 
         microlite_interpreter->tf_interpreter = (mp_obj_t)interpreter;
 
