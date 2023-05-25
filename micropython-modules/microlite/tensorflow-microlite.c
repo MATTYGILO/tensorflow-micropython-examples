@@ -296,10 +296,18 @@ STATIC mp_obj_t interpreter_make_new(const mp_obj_type_t *type, size_t n_args, s
 
     mp_printf(MP_PYTHON_PRINTER, "Creating interpreter");
 
-    mp_obj_array_t *model_input = MP_OBJ_TO_PTR (args[0]);
-    mp_obj_array_t *area_input = MP_OBJ_TO_PTR (args[1]);
+    mp_obj_array_t *model_input = MP_OBJ_TO_PTR(args[0]);
+    mp_obj_t tensor_area_obj = args[1];
+
+    if (!MP_OBJ_IS_TYPE(tensor_area_obj, &mp_type_bytearray)) {
+        mp_printf(MP_PYTHON_PRINTER, "Provided tensor_area_obj is of type: %q\n", mp_obj_get_type(tensor_area_obj)->name);
+        mp_raise_TypeError(MP_ERROR_TEXT("Invalid tensor area object, expected bytearray"));
+    }
+
+    mp_obj_array_t *tensor_area = MP_OBJ_TO_PTR(tensor_area_obj);
 
     mp_printf(MP_PYTHON_PRINTER, "Received model and area");
+
 
     // int tensor_area_len = mp_obj_get_int(args[1]);
 
