@@ -296,11 +296,11 @@ STATIC mp_obj_t interpreter_make_new(const mp_obj_type_t *type, size_t n_args, s
 //      - output callback function
 
     mp_obj_array_t *model = MP_OBJ_TO_PTR (args[0]);
+    mp_obj_array_t *tensor_area_data = MP_OBJ_TO_PTR (args[1]);
 
-    int tensor_area_len = mp_obj_get_int(args[1]);
+    // int tensor_area_len = mp_obj_get_int(args[1]);
 
     mp_obj_t input_callback_fn = args[2];
-
     mp_obj_t output_callback_fn = args[3];
 
     if (input_callback_fn != mp_const_none && !mp_obj_is_callable(input_callback_fn)) {
@@ -323,22 +323,18 @@ STATIC mp_obj_t interpreter_make_new(const mp_obj_type_t *type, size_t n_args, s
     self->base.type = &microlite_interpreter_type;
 
 
-
-    // for now hard code the model to the hello world model
-    // self->model_data = mp_obj_new_bytearray_by_ref(g_model_len, g_model);
-
+    // Set the model data
     self->model_data = model;
+    self->tensor_area = tensor_area_data
 
-// 
+    // add extra space to allow for alignment
+    // tensor_area_len  += 16;
 
-// add extra space to allow for alinment
-    tensor_area_len  += 16;
+    // uint8_t *tensor_area_buffer = m_new(uint8_t, tensor_area_len);
 
-    uint8_t *tensor_area_buffer = m_new(uint8_t, tensor_area_len);
+    // self->tensor_area = mp_obj_new_bytearray_by_ref (tensor_area_len, tensor_area_buffer);
 
-    self->tensor_area = mp_obj_new_bytearray_by_ref (tensor_area_len, tensor_area_buffer);
-
-    mp_printf(MP_PYTHON_PRINTER, "interpreter_make_new: model size = %d, tensor area = %d\n", self->model_data->len, tensor_area_len);
+    mp_printf(MP_PYTHON_PRINTER, "interpreter_make_new: model size = %d, tensor area = %d\n", self->model_data->len, self->tensor_area->len);
 
     libtf_interpreter_init(self);
 
