@@ -325,7 +325,7 @@ STATIC mp_obj_t interpreter_make_new(const mp_obj_type_t *type, size_t n_args, s
 
     // Set the model data
     self->model_data = model;
-    self->tensor_area = tensor_area_data
+    self->tensor_area = tensor_area_data;
 
     // add extra space to allow for alignment
     // tensor_area_len  += 16;
