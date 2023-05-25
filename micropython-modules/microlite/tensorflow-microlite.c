@@ -288,20 +288,25 @@ STATIC void interpreter_print(const mp_print_t *print, mp_obj_t self_in, mp_prin
 STATIC mp_obj_t interpreter_make_new(const mp_obj_type_t *type, size_t n_args, size_t n_kw, const mp_obj_t *args) {
     mp_arg_check_num(n_args, n_kw, 4, 4, false);
 
-//    args:
-//      - model
+    // args:
+    //  - model
+    //  - size of the tensor area
+    //  - input callback function
+    //  - output callback function
 
-//      - size of the tensor area
-//      - input callback function
-//      - output callback function
+    mp_printf(MP_PYTHON_PRINTER, "Creating interpreter");
 
-    mp_obj_array_t *model = MP_OBJ_TO_PTR (args[0]);
-    mp_obj_array_t *tensor_area_data = MP_OBJ_TO_PTR (args[1]);
+    mp_obj_array_t *model_input = MP_OBJ_TO_PTR (args[0]);
+    mp_obj_array_t *area_input = MP_OBJ_TO_PTR (args[1]);
+
+    mp_printf(MP_PYTHON_PRINTER, "Received model and area");
 
     // int tensor_area_len = mp_obj_get_int(args[1]);
 
     mp_obj_t input_callback_fn = args[2];
     mp_obj_t output_callback_fn = args[3];
+
+    mp_printf(MP_PYTHON_PRINTER, "Received callbacks");
 
     if (input_callback_fn != mp_const_none && !mp_obj_is_callable(input_callback_fn)) {
         mp_raise_ValueError(MP_ERROR_TEXT("Invalid Input Callback Handler"));
@@ -312,23 +317,35 @@ STATIC mp_obj_t interpreter_make_new(const mp_obj_type_t *type, size_t n_args, s
     }
 
     // to start with just hard code to the hello-world model
-
     microlite_interpreter_obj_t *self = m_new_obj(microlite_interpreter_obj_t);
+
+    mp_printf(MP_PYTHON_PRINTER, "Allocated interpreter object");
 
     self->input_callback = input_callback_fn;
     self->output_callback = output_callback_fn;
 
+    mp_printf(MP_PYTHON_PRINTER, "Set callbacks");
+
     self->inference_count = 0;
+
+    mp_printf(MP_PYTHON_PRINTER, "Set inference count");
 
     self->base.type = &microlite_interpreter_type;
 
+    mp_printf(MP_PYTHON_PRINTER, "Set type");
+
 
     // Set the model data
-    self->model_data = model;
-    self->tensor_area = tensor_area_data;
+    self->model_data = model_input;
+
+    mp_printf(MP_PYTHON_PRINTER, "Set model data");
+
+    self->tensor_area = area_input;
+
+    mp_printf(MP_PYTHON_PRINTER, "Set tensor area");
 
     // add extra space to allow for alignment
-    // tensor_area_len  += 16;
+    // tensor_area_len += 16;
 
     // uint8_t *tensor_area_buffer = m_new(uint8_t, tensor_area_len);
 
@@ -337,6 +354,8 @@ STATIC mp_obj_t interpreter_make_new(const mp_obj_type_t *type, size_t n_args, s
     mp_printf(MP_PYTHON_PRINTER, "interpreter_make_new: model size = %d, tensor area = %d\n", self->model_data->len, self->tensor_area->len);
 
     libtf_interpreter_init(self);
+
+    mp_printf(MP_PYTHON_PRINTER, "interpreter_make_new: initialised");
 
     return MP_OBJ_FROM_PTR(self);
 }
