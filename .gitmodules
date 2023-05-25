@@ -5,7 +5,7 @@
 [submodule "micropython-ulab"]
 	path = micropython-ulab
 	url = https://github.com/v923z/micropython-ulab.git
-	branch = master
+    branch = 5fa9b707660177aff615a7dc0bf508a98e9e0f07
 [submodule "mpy-mbedtls"]
 	path = mpy-mbedtls
 	url = https://github.com/Carglglz/mpy-mbedtls.git
